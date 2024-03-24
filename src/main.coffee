@@ -4,37 +4,25 @@
 'use strict'
 
 
-#===========================================================================================================
-GUY                       = require 'guy'
-{ alert
-  debug
-  help
-  info
-  plain
-  praise
-  urge
-  warn
-  whisper }               = GUY.trm.get_loggers 'intertalk'
-{ rpr
-  inspect
-  echo
-  log     }               = GUY.trm
+# #===========================================================================================================
+# GUY                       = require 'guy'
+# { alert
+#   debug
+#   help
+#   info
+#   plain
+#   praise
+#   urge
+#   warn
+#   whisper }               = GUY.trm.get_loggers 'intertalk'
+# { rpr
+#   inspect
+#   echo
+#   log     }               = GUY.trm
 # WG                        = require '../../../apps/webguy'
 # hub_s                     = Symbol.for 'hub'
 
-
-###
-
-**Note**: I first had in mind to use an ingenious / tricky / treacherous construction that would allow the
-'secondary' to reference methods on the host / primary using `this` / `@`; this would have allowed both the
-primary and the secondary to use a unified notation like `@f`, `@$.f` to reference `f` on the primary and on
-the secondary. However this also would be surprising because now `this` means not the secondary, but the
-primary instance in methods of the secondary instance which is too surprising to sound right.
-
-Instead, we're using composition, albeit with a backlink.
-
-###
-
+{ log, } = console
 
 
 
@@ -76,7 +64,7 @@ class Subsidiary_helpers
       subsidiary_key
       enumerable      } = cfg
     #.......................................................................................................
-    debug '^340-1^', cfg
+    log '^340-1^', cfg
     ### TAINT shouldn't be necessary if done explicitly? ###
     unless @subsidiaries.has subsidiary
       throw new Error "object isn't a subsidiary"
@@ -105,31 +93,28 @@ class Host
   constructor: ->
     for { subsidiary_key, subsidiary, } from SUBSIDIARY.walk_subsidiaries @
       SUBSIDIARY.tie_host_and_subsidiary { host: @, subsidiary, host_key: '_', subsidiary_key, }
-      debug '^233-1^', subsidiary_key, ( SUBSIDIARY.is_subsidiary subsidiary ), ( subsidiary._ is @ )
-      debug '^233-1^', @[ subsidiary_key ]
-    #   continue unless subsidiary_key.startsWith '$'
-    #   debug '^233-2^', subsidiary_key, subsidiary, subsidiary?.prototype
-    # @$ = new Secondary @
+      log '^233-1^', subsidiary_key, ( SUBSIDIARY.is_subsidiary subsidiary ), ( subsidiary._ is @ )
+      log '^233-1^', @[ subsidiary_key ]
     return undefined
 
   #---------------------------------------------------------------------------------------------------------
   show: ->
-    help '^650-1^', @
-    help '^650-2^', @$a, @$a.show
-    help '^650-2^', @$b, @$b.show
+    log '^650-1^', @
+    log '^650-2^', @$a, @$a.show
+    log '^650-2^', @$b, @$b.show
     return null
 
   #---------------------------------------------------------------------------------------------------------
   $a: SUBSIDIARY.create
     show: ->
-      warn '^650-1^', "$a.show"
+      log '^650-1^', "$a.show"
       @_.show()
       return null
 
   #---------------------------------------------------------------------------------------------------------
   $b: SUBSIDIARY.create new class B
     show: ->
-      warn '^650-1^', "$b.show"
+      log '^650-1^', "$b.show"
       @_.show()
       return null
 
@@ -147,7 +132,7 @@ if module is require.main then await do =>
   host        = { a: true, }
   subsidiary  = SUBSIDIARY.create { b: true, }
   SUBSIDIARY.tie_host_and_subsidiary { host, subsidiary, enumerable: true, }
-  urge '^722-1^', host
-  urge '^722-1^', host.$
-  urge '^722-1^', subsidiary
-  urge '^722-1^', subsidiary._
+  log '^722-1^', host
+  log '^722-1^', host.$
+  log '^722-1^', subsidiary
+  log '^722-1^', subsidiary._
