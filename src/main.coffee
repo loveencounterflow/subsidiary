@@ -22,12 +22,10 @@
 # WG                        = require '../../../apps/webguy'
 # hub_s                     = Symbol.for 'hub'
 
-{ log, } = console
-
 
 
 #===========================================================================================================
-class Subsidiary_helpers
+class Subsidiary
 
   #---------------------------------------------------------------------------------------------------------
   constructor: ->
@@ -64,7 +62,6 @@ class Subsidiary_helpers
       subsidiary_key
       enumerable      } = cfg
     #.......................................................................................................
-    log '^340-1^', cfg
     ### TAINT shouldn't be necessary if done explicitly? ###
     unless @subsidiaries.has subsidiary
       throw new Error "object isn't a subsidiary"
@@ -84,7 +81,7 @@ class Subsidiary_helpers
     throw new Error "no host registered for object"
 
 #===========================================================================================================
-SUBSIDIARY = new Subsidiary_helpers
+SUBSIDIARY = new Subsidiary
 
 #===========================================================================================================
 class Host
@@ -93,46 +90,27 @@ class Host
   constructor: ->
     for { subsidiary_key, subsidiary, } from SUBSIDIARY.walk_subsidiaries @
       SUBSIDIARY.tie_host_and_subsidiary { host: @, subsidiary, host_key: '_', subsidiary_key, }
-      log '^233-1^', subsidiary_key, ( SUBSIDIARY.is_subsidiary subsidiary ), ( subsidiary._ is @ )
-      log '^233-1^', @[ subsidiary_key ]
     return undefined
 
   #---------------------------------------------------------------------------------------------------------
   show: ->
-    log '^650-1^', @
-    log '^650-2^', @$a, @$a.show
-    log '^650-2^', @$b, @$b.show
     return null
 
   #---------------------------------------------------------------------------------------------------------
   $a: SUBSIDIARY.create
     show: ->
-      log '^650-1^', "$a.show"
       @_.show()
       return null
 
   #---------------------------------------------------------------------------------------------------------
   $b: SUBSIDIARY.create new class B
     show: ->
-      log '^650-1^', "$b.show"
       @_.show()
       return null
 
   #---------------------------------------------------------------------------------------------------------
   $not_a_subsidiary: {}
 
-
 #===========================================================================================================
-if module is require.main then await do =>
-  h = new Host()
-  h.show()
-  h.$a.show()
-  h.$b.show()
-  #.........................................................................................................
-  host        = { a: true, }
-  subsidiary  = SUBSIDIARY.create { b: true, }
-  SUBSIDIARY.tie_host_and_subsidiary { host, subsidiary, enumerable: true, }
-  log '^722-1^', host
-  log '^722-1^', host.$
-  log '^722-1^', subsidiary
-  log '^722-1^', subsidiary._
+module.exports = { SUBSIDIARY, Subsidiary, }
+
