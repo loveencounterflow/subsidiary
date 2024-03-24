@@ -1,0 +1,12 @@
+{
+  "name": "subsidiary",
+  "version": "0.0.0",
+  "description": "small tool to create circular but GC-friendly links between two objects",
+  "main": "lib/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
