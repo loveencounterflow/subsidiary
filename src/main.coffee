@@ -42,12 +42,12 @@ class Subsidiary
       enumerable      } = cfg
     #.......................................................................................................
     for { subsidiary_key, subsidiary, } from @walk_subsidiaries host
-      @tie_host_and_subsidiary { host, subsidiary, host_key, subsidiary_key, }
+      @tie_one { host, subsidiary, host_key, subsidiary_key, }
     #.......................................................................................................
     return host
 
   #---------------------------------------------------------------------------------------------------------
-  tie_host_and_subsidiary: ( cfg ) ->
+  tie_one: ( cfg ) ->
     ### TAINT use types, validate ###
     template  = { host: null, subsidiary: null, subsidiary_key: '$', host_key: '_', enumerable: false, }
     cfg       = { template..., cfg..., }
