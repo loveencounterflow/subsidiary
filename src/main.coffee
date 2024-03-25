@@ -43,7 +43,7 @@ class Subsidiary
     for { subsidiary_key, subsidiary, } from @walk_subsidiaries host
       @tie_host_and_subsidiary { host, subsidiary, host_key, subsidiary_key, }
     #.......................................................................................................
-    return null
+    return host
 
   #---------------------------------------------------------------------------------------------------------
   tie_host_and_subsidiary: ( cfg ) ->
@@ -68,7 +68,7 @@ class Subsidiary
     Object.defineProperty host, subsidiary_key, { value: subsidiary, enumerable, }
     Object.defineProperty subsidiary, host_key, { get: ( => @get_host subsidiary ), enumerable, }
     @hosts.set subsidiary, host
-    return subsidiary
+    return host
 
   #---------------------------------------------------------------------------------------------------------
   get_host: ( subsidiary ) ->
