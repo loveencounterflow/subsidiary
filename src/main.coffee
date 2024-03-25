@@ -18,6 +18,7 @@ class Subsidiary
     yield { subsidiary_key, subsidiary, } \
       for subsidiary_key, subsidiary of host \
         when @is_subsidiary subsidiary
+    return null
 
   #---------------------------------------------------------------------------------------------------------
   create: ( subsidiary ) ->
