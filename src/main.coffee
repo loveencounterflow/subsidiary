@@ -82,5 +82,5 @@ class Subsidiary
 
 
 #===========================================================================================================
-module.exports = { SUBSIDIARY, Subsidiary, }
+module.exports = { SUBSIDIARY: ( new Subsidiary ), Subsidiary, }
 
