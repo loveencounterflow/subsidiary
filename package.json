@@ -1,6 +1,6 @@
 {
   "name": "subsidiary",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "small tool to create circular but GC-friendly links between two objects",
   "main": "lib/main.js",
   "scripts": {
