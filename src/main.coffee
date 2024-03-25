@@ -58,9 +58,7 @@ class Subsidiary
       subsidiary_key
       enumerable      } = cfg
     #.......................................................................................................
-    ### TAINT shouldn't be necessary if done explicitly? ###
-    unless @subsidiaries.has subsidiary
-      throw new Error "object isn't a subsidiary"
+    @subsidiaries.add subsidiary
     if @hosts.has subsidiary
       throw new Error "subsidiary already has a host"
     ### host->subsidiary is a standard containment/compository relationship and is expressed directly;
