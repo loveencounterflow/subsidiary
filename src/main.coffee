@@ -51,6 +51,21 @@ class Subsidiary
   is_subsidiary: ( x ) -> @subsidiaries.has x
 
   #---------------------------------------------------------------------------------------------------------
+  tie_all: ( cfg ) ->
+    ### TAINT use types, validate ###
+    template  = { host: null, host_key: '_', enumerable: false, }
+    cfg       = { template..., cfg..., }
+    #.......................................................................................................
+    { host
+      host_key
+      enumerable      } = cfg
+    #.......................................................................................................
+    for { subsidiary_key, subsidiary, } from @walk_subsidiaries host
+      @tie_host_and_subsidiary { host, subsidiary, host_key, subsidiary_key, }
+    #.......................................................................................................
+    return null
+
+  #---------------------------------------------------------------------------------------------------------
   tie_host_and_subsidiary: ( cfg ) ->
     ### TAINT use types, validate ###
     template  = { host: null, subsidiary: null, subsidiary_key: '$', host_key: '_', enumerable: false, }
