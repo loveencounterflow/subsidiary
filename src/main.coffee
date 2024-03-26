@@ -42,7 +42,7 @@ class Subsidiary
       enumerable      } = cfg
     #.......................................................................................................
     for { subsidiary_key, subsidiary, } from @walk_subsidiaries host
-      @tie_one { host, subsidiary, host_key, subsidiary_key, }
+      @tie_one { host, subsidiary, host_key, subsidiary_key, enumerable, }
     #.......................................................................................................
     return host
 
