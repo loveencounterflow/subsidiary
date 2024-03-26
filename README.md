@@ -9,6 +9,8 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Subsidiary](#subsidiary)
+  - [Example #1](#example-1)
+  - [Example #1](#example-1-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -22,8 +24,11 @@ host->subsidiary is a standard containment/compository relationship and is expre
 subsidiary-> host is a backlink that would create a circular reference which we avoid by using a
 `WeakMap` instance, `SUBSIDIARY.hosts`
 
-In this example, `SUBSIDIARY.tie_all()` is passed the `host` instance (`@ === this`), a `host_key` to
-specify under which key the `host` will be accessible from its subsidiaries
+## Example #1
+
+* In this example, `SUBSIDIARY.tie_all()` is passed the `host` instance (`@ === this`), a `host_key` to
+  specify under which key the `host` will be accessible from its subsidiaries
+
 
 ```coffee
   { SUBSIDIARY } = require 'subsidiary'
@@ -54,6 +59,10 @@ specify under which key the `host` will be accessible from its subsidiaries
     ### using an instance ###
     $b: SUBSIDIARY.create new class C
 ```
+
+## Example #1
+
+
 
 ```coffee
 ```
