@@ -10,8 +10,8 @@
 
 - [Subsidiary](#subsidiary)
   - [Example: Plain Objects](#example-plain-objects)
+  - [Example: Class with Several Subsidiaries](#example-class-with-several-subsidiaries)
   - [Example #1](#example-1)
-  - [Example #1](#example-1-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -44,40 +44,44 @@ log '^xpo@4^', b
 #   ^xpo@4^ { is_b: true, value: 4, a: [Getter] }
 ```
 
-## Example #1
+## Example: Class with Several Subsidiaries
 
-* In this example, `SUBSIDIARY.tie_all()` is passed the `host` instance (`@ === this`), a `host_key` to
-  specify under which key the `host` will be accessible from its subsidiaries
+In this example, `SUBSIDIARY.tie_all()` is passed the `host` instance (`@ === this`) and a `host_key` of
+(`'_'`, the default value) to specify under which key the `host` will be accessible from its subsidiaries;
+`enumerable` has not been set to `true`, so the host key will not show up in key enumerations as returned by
+e.g. `Object.keys subsidiary`. Using the `SUBSIDIARY.tie_all()` method requires that subsidiary objects are
+explicitly marked up as such by calling `SUBSIDIARY.create obj`; this will not affect the marked `obj`ect in
+any way other than adding it to the `WeakSet` (accessible as `SUBSIDIARY.subsidiaries`).
 
 
 ```coffee
-  { SUBSIDIARY } = require 'subsidiary'
+{ SUBSIDIARY } = require 'subsidiary'
 
-  #=========================================================================================================
-  class Host
+#=========================================================================================================
+class Host
 
-    #-------------------------------------------------------------------------------------------------------
-    constructor: ->
-      SUBSIDIARY.tie_all { host: @, host_key: '_', enumerable: true, }
-      return undefined
+  #-------------------------------------------------------------------------------------------------------
+  constructor: ->
+    SUBSIDIARY.tie_all { host: @, host_key: '_', }
+    return undefined
 
-    #-------------------------------------------------------------------------------------------------------
-    ### using a plain object ###
-    $a: SUBSIDIARY.create
-      $a: true
-      f: -> ...
-      g: -> ...
+  #-------------------------------------------------------------------------------------------------------
+  ### using a plain object ###
+  $a: SUBSIDIARY.create
+    $a: true
+    f: -> null ### whatever ###
+    g: -> null ### whatever ###
 
-    #-------------------------------------------------------------------------------------------------------
-    ### using an ad-hoc instance ###
-    $b: SUBSIDIARY.create new class B
-      $b: true
-      f: -> ...
-      g: -> ...
+  #-------------------------------------------------------------------------------------------------------
+  ### using an ad-hoc instance ###
+  $b: SUBSIDIARY.create new class B
+    $b: true
+    f: -> null ### whatever ###
+    g: -> null ### whatever ###
 
-    #-------------------------------------------------------------------------------------------------------
-    ### using an instance ###
-    $b: SUBSIDIARY.create new class C
+  #-------------------------------------------------------------------------------------------------------
+  ### using an instance ###
+  $b: SUBSIDIARY.create new class C
 ```
 
 ## Example #1
